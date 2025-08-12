@@ -1,7 +1,19 @@
+# Use official n8n image
 FROM n8nio/n8n
 
-# Optional: set environment variables
-ENV N8N_BASIC_AUTH_ACTIVE=true
-ENV N8N_BASIC_AUTH_USER=yourusername
-ENV N8N_BASIC_AUTH_PASSWORD=yourpassword
-ENV WEBHOOK_URL=https://your-render-url.onrender.com 
+# Set working directory
+WORKDIR /data
+
+# Make sure Render's port is used
+ENV N8N_PORT=$PORT
+ENV N8N_HOST=0.0.0.0
+ENV N8N_PROTOCOL=http
+
+# Optional: disable telemetry if you want
+ENV N8N_DIAGNOSTICS_ENABLED=false
+
+# Expose the port (Render will override with $PORT)
+EXPOSE $PORT
+
+# Start n8n
+CMD ["n8n", "start"]
